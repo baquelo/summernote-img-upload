@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<title>Summernote - File Upload</title>
+	
+	<!-- Bootstrap, Fontawesome Core CSS -->
+	<link href="css/bootstrap.css" rel="stylesheet">
+	<link href="css/font-awesome.css" rel="stylesheet">
+  	<link href="summernote.css" rel="stylesheet">
+	
+	<!--[if lt IE 9]>
+	<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+</head>
+<body>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<p>To download the summernote access the link <a href="http://summernote.org/">http://summernote.org/</a></p>
+				<p>This editor uploads images to the file system. Just make sure that you have write access to <code>img-uploads</code> folder.</p>
+				<div class="summernote"></div>
+				<button id="submitBtn" class="btn btn-success">See Output</button>
+				<br>
+				<br>
+				<textarea rows="5" style="width:100%;" id="result"></textarea>  
+
+	
+				<!-- jQuery -->
+				<script src="js/jquery.js"></script>
+				<script src="js/bootstrap.min.js"></script>
+				<script src="summernote.js"></script>
+				
+				<script type="text/javascript">						    
+				<!--
+	
+				$(document).ready(function() {
+					
+					$('.summernote').summernote({
+					    height: 200,
+					    callbacks: {
+					        onImageUpload: function(files, editor, $editable) {
+				           		sendFile(files[0],editor,$editable);
+				        	}
+				    	}
+					});
+				
+				
+					$('#submitBtn').click(function() {
+						var summernoteContent = $('.summernote').summernote('code');
+						$('#result').val(summernoteContent);
+					});
+
+					function sendFile(file,editor,welEditable) {
+			    		data = new FormData();
+					    data.append("file", file);
+					    $.ajax({
+					        data: data,
+					        type: 'POST',
+					        url: "saveimage.php",
+					        cache: false,
+					        contentType: false,
+					        processData: false,
+					        success: function(url){
+					        	console.log("its ok");
+					        	alert(data);
+					            $('.summernote').summernote('editor.insertImage', url);
+					        },
+					   		    error: function(jqXHR, textStatus, errorThrown) {
+						        console.log(textStatus+" "+errorThrown);
+					        }
+					    });
+					}
+
+				});
+				//-->
+				</script>
+			</div>
+		</div>	
+	</div>
+
+</body>
+</html>
+
+
